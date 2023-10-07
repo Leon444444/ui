@@ -1,5 +1,6 @@
 --[[
-    @g11
+    @gs.cc
+    moded by siero, fix gradient by xosmane and harn0ff
 ]]
 -- // Variables
 local ws, uis, rs, hs, cas, plrs, stats = game:GetService("Workspace"), game:GetService("UserInputService"), game:GetService("RunService"), game:GetService("HttpService"), game:GetService("ContextActionService"), game:GetService("Players"), game:GetService("Stats")
@@ -18,6 +19,7 @@ local library = {
     hidden = {},
     connections = {},
     pointers = {},
+    accents = {},
     began = {},
     ended = {},
     changed = {},
@@ -25,9 +27,9 @@ local library = {
     hovers = {},
     Relations = {},
     folders = {
-        main = "Atlanta",
-        assets = "Atlanta/Images",
-        configs = "Atlanta/Configs"
+        main = "Siero.pen",
+        assets = "Siero.pen/Images",
+        configs = "Siero.pen/Configs"
     },
     shared = {
         initialized = false,
@@ -60,18 +62,234 @@ local sections = {}
 -- Theme Variables
 --local themes = {}
 local theme = {
-    accent = Color3.fromRGB(55, 175, 225),
-    lightcontrast = Color3.fromRGB(30, 30, 30),
-    darkcontrast = Color3.fromRGB(20, 20, 20),
-    outline = Color3.fromRGB(0, 0, 0),
-    inline = Color3.fromRGB(50, 50, 50),
-    textcolor = Color3.fromRGB(255, 255, 255),
-    textdark = Color3.fromRGB(175, 175, 175),
-    textborder = Color3.fromRGB(0, 0, 0),
-    cursoroutline = Color3.fromRGB(10, 10, 10),
+    ['accent'] = Color3.fromRGB(61, 100, 227);
+    ['lightcontrast'] = Color3.fromRGB(40, 40, 40);
+    ['darkcontrast'] = Color3.fromRGB(20, 20, 20);
+    ['outline'] = Color3.fromRGB(1,1,1);
+    ['inline'] = Color3.fromRGB(45, 45, 45);
+    ['textcolor'] = Color3.fromRGB(255,255,255);
+    textdark = Color3.fromRGB(175, 175, 175);
+    ['textborder'] = Color3.fromRGB(0,0,0);
+    ['cursoroutline'] = Color3.fromRGB(10,10,10);
     font = 2,
     textsize = 13
 }
+local themes = {
+    Default = {
+		['accent'] = Color3.fromRGB(61, 100, 227);
+		['lightcontrast'] = Color3.fromRGB(40, 40, 40);
+		['darkcontrast'] = Color3.fromRGB(20, 20, 20);
+		['outline'] = Color3.fromRGB(1,1,1);
+		['inline'] = Color3.fromRGB(45, 45, 45);
+		['textcolor'] = Color3.fromRGB(255,255,255);
+		textdark = Color3.fromRGB(175, 175, 175);
+		['textborder'] = Color3.fromRGB(0,0,0);
+		['cursoroutline'] = Color3.fromRGB(10,10,10);
+        font = 2,
+        textsize = 13
+    },
+    ["Entropy"] = {
+        ['accent'] = Color3.fromRGB(147,188,222);
+        ['lightcontrast'] = Color3.fromRGB(56,54,61);
+        ['darkcontrast'] = Color3.fromRGB(40,39,46);
+        ['outline'] = Color3.fromRGB(0,0,0);
+        ['inline'] = Color3.fromRGB(63,63,67);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Dracula"] = {
+        ['accent'] = Color3.fromRGB(125,104,142);
+        ['lightcontrast'] = Color3.fromRGB(35,37,48);
+        ['darkcontrast'] = Color3.fromRGB(30,31,40);
+        ['outline'] = Color3.fromRGB(29,30,39);
+        ['inline'] = Color3.fromRGB(49,45,62);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Neverlose"] = {
+        ['accent'] = Color3.fromRGB(0,158,210);
+        ['lightcontrast'] = Color3.fromRGB(0,13,23);
+        ['darkcontrast'] = Color3.fromRGB(3,4,17);
+        ['outline'] = Color3.fromRGB(1,1,1);
+        ['inline'] = Color3.fromRGB(29,30,39);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ['nanohub'] = {
+        accent = Color3.fromRGB(170, 0, 255),
+        lightcontrast = Color3.fromRGB(30, 30, 30),
+        darkcontrast = Color3.fromRGB(20, 20, 20),
+        outline = Color3.fromRGB(0, 0, 0),
+        inline = Color3.fromRGB(50, 50, 50),
+        textcolor = Color3.fromRGB(255, 255, 255),
+        textborder = Color3.fromRGB(0, 0, 0),
+        cursoroutline = Color3.fromRGB(10, 10, 10)     
+    };
+    ["Aimware"] = {
+        accent = Color3.fromRGB(222, 60, 39),
+        lightcontrast = Color3.fromRGB(15, 16, 18),
+        darkcontrast = Color3.fromRGB(23, 23, 25),
+        outline = Color3.fromRGB(0, 0, 0),
+        inline = Color3.fromRGB(42, 42, 42),
+        textcolor = Color3.fromRGB(255, 255, 255),
+        textborder = Color3.fromRGB(0, 0, 0),
+        cursoroutline = Color3.fromRGB(10, 10, 10)
+    };
+    ["Spotify"] = {
+        ['accent'] = Color3.fromRGB(30,193,81);
+        ['lightcontrast'] = Color3.fromRGB(19,19,19);
+        ['darkcontrast'] = Color3.fromRGB(16,16,16);
+        ['outline'] = Color3.fromRGB(0,0,0);
+        ['inline'] = Color3.fromRGB(36,36,36);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Interwebz"] = {
+        ['accent'] = Color3.fromRGB(172,89,66);
+        ['lightcontrast'] = Color3.fromRGB(35,29,48);
+        ['darkcontrast'] = Color3.fromRGB(27,19,37);
+        ['outline'] = Color3.fromRGB(25,22,25);
+        ['inline'] = Color3.fromRGB(53,45,64);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Neko"] = {
+        ['accent'] = Color3.fromRGB(170,27,80);
+        ['lightcontrast'] = Color3.fromRGB(19,19,18);
+        ['darkcontrast'] = Color3.fromRGB(17,17,17);
+        ['outline'] = Color3.fromRGB(25,22,25);
+        ['inline'] = Color3.fromRGB(39,39,38);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Gamesense"] = {
+        ['accent'] = Color3.fromRGB(165, 209, 33);
+        ['lightcontrast'] = Color3.fromRGB(27, 27, 27);
+        ['darkcontrast'] = Color3.fromRGB(23, 23, 23);
+        ['outline'] = Color3.fromRGB(31, 31, 31);
+        ['inline'] = Color3.fromRGB(41, 41, 41);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0, 0, 0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Onetap"] = {
+        ['accent'] = Color3.fromRGB(186,142,77);
+        ['lightcontrast'] = Color3.fromRGB(44,48,54);
+        ['darkcontrast'] = Color3.fromRGB(31,33,37);
+        ['outline'] = Color3.fromRGB(9,11,16);
+        ['inline'] = Color3.fromRGB(31,33,37);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(44,48,54);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Vape"] = {
+        ['accent'] = Color3.fromRGB(1,190,136);
+        ['lightcontrast'] = Color3.fromRGB(19,19,18);
+        ['darkcontrast'] = Color3.fromRGB(17,17,17);
+        ['outline'] = Color3.fromRGB(0,0,0);
+        ['inline'] = Color3.fromRGB(39,39,38);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Fatality"] = {
+        ['accent'] = Color3.fromRGB(236, 11, 79);
+        ['lightcontrast'] = Color3.fromRGB(34, 27, 71);
+        ['darkcontrast'] = Color3.fromRGB(25, 20, 52);
+        ['outline'] = Color3.fromRGB(61, 55, 89);
+        ['inline'] = Color3.fromRGB(61, 55, 89);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Nebula"] = {
+        ['accent'] = Color3.fromRGB(61, 100, 227);
+        ['lightcontrast'] = Color3.fromRGB(41,41,50);
+        ['darkcontrast'] = Color3.fromRGB(27,27,34);
+        ['outline'] = Color3.fromRGB(1,1,1);
+        ['inline'] = Color3.fromRGB(39,39,47);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Bitch Bot"] = {
+        ['accent'] = Color3.fromRGB(162, 46, 230);
+        ['lightcontrast'] = Color3.fromRGB(48,48,48);
+        ['darkcontrast'] = Color3.fromRGB(27,27,27);
+        ['outline'] = Color3.fromRGB(1,1,1);
+        ['inline'] = Color3.fromRGB(26,26,26);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Primordial"] = {
+        accent = Color3.fromRGB(221, 192, 201),
+        lightcontrast = Color3.fromRGB(23, 25, 24),
+        darkcontrast = Color3.fromRGB(23, 23, 25),
+        outline = Color3.fromRGB(0, 0, 0),
+        inline = Color3.fromRGB(12, 14, 18),
+        textcolor = Color3.fromRGB(255, 255, 255),
+        textborder = Color3.fromRGB(0, 0, 0),
+        cursoroutline = Color3.fromRGB(10, 10, 10)
+    };
+    ["Lucky Charms"] = {
+        ['accent'] = Color3.fromRGB(27,96,38);
+        ['lightcontrast'] = Color3.fromRGB(35,37,36);
+        ['darkcontrast'] = Color3.fromRGB(42,42,42);
+        ['outline'] = Color3.fromRGB(42,42,42);
+        ['inline'] = Color3.fromRGB(35,37,36);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Seere"] = {
+        ['accent'] = Color3.fromRGB(35,131,167);
+        ['lightcontrast'] = Color3.fromRGB(20,20,20);
+        ['darkcontrast'] = Color3.fromRGB(17,17,17);
+        ['outline'] = Color3.fromRGB(1,1,1);
+        ['inline'] = Color3.fromRGB(28,28,28);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ["Azure"] = {
+        ['accent'] = Color3.fromRGB(222,117,222);
+        ['lightcontrast'] = Color3.fromRGB(80,80,80);
+        ['darkcontrast'] = Color3.fromRGB(65,65,65);
+        ['outline'] = Color3.fromRGB(60,60,60);
+        ['inline'] = Color3.fromRGB(72,72,72);
+        ['textcolor'] = Color3.fromRGB(255,255,255);
+        ['textborder'] = Color3.fromRGB(0,0,0);
+        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+    };
+    ['Rifk7'] = {
+        accent = Color3.fromRGB(128, 158, 134),
+        lightcontrast = Color3.fromRGB(34, 34, 34),
+        darkcontrast = Color3.fromRGB(33, 33, 33),
+        outline = Color3.fromRGB(20, 20, 20),
+        inline = Color3.fromRGB(105, 105, 105),
+        textcolor = Color3.fromRGB(255, 255, 255),
+        textborder = Color3.fromRGB(0, 0, 0),
+        cursoroutline = Color3.fromRGB(10, 10, 10)    
+    };
+	['SanyaHaxx'] = {
+		accent = Color3.fromRGB(125, 134, 255),
+        lightcontrast = Color3.fromRGB(26, 26, 33),
+        darkcontrast = Color3.fromRGB(16, 16, 20),
+        outline = Color3.fromRGB(0, 0, 0),
+        inline = Color3.fromRGB(38, 38, 41),
+        textcolor = Color3.fromRGB(255, 255, 255),
+        textborder = Color3.fromRGB(0, 0, 0),
+        cursoroutline = Color3.fromRGB(10, 10, 10)
+	}
+}
+
 -- // utility Functions
 do
     function utility:Size(xScale,xOffset,yScale,yOffset,instance)
@@ -291,6 +509,13 @@ do
         return connection
     end
     --
+    function library:Connection(connectionType, connectionCallback)
+        local connection = connectionType:Connect(connectionCallback)
+        library.connections[#library.connections + 1] = connection
+        --
+        return connection
+    end
+    --
     function utility:Disconnect(connection)
         for i,v in pairs(library.connections) do
             if v == connection then
@@ -324,7 +549,7 @@ do
             Text = text,
             Size = textSize,
             Font = font,
-            Hidden = true
+            Hidden = false
         })
         --
         textbounds = textlabel.TextBounds
@@ -427,6 +652,7 @@ do
 	sections.__index = sections
     --
     function library:Notification(info)
+        
     end
     --
     function library:Loader(info)
@@ -456,6 +682,7 @@ do
             Position = utility:Position(0, 1, 0, 1, main_frame),
             Color = theme.accent
         })
+        library.accents[#library.accents + 1] = frame_inline
         --
         library.colors[frame_inline] = {
             Color = "accent"
@@ -701,7 +928,7 @@ do
                 Thickness = 2.5,
                 Filled = false,
                 ZIndex = 65,
-                Hidden = true
+                Hidden = false
             });window.cursor["cursor"] = cursor
             --
             library.colors[cursor] = {
@@ -713,8 +940,9 @@ do
                 Filled = true,
                 Thickness = 0,
                 ZIndex = 65,
-                Hidden = true
+                Hidden = false
             });window.cursor["cursor_inline"] = cursor_inline
+            library.accents[#library.accents + 1] = cursor_inline
             --
             library.colors[cursor_inline] = {
                 Color = "accent"
@@ -894,7 +1122,8 @@ do
     --
     function library:New(info)
 		local info = info or {}
-        local name = info.name or info.Name or info.title or info.Title or "UI Title"
+        local hidetitle = info.hidetitle or info.hide_title or info.HideTitle or info.hideTitle or false
+        local name = not hidetitle and (info.name or info.Name or info.title or info.Title or "UI Title") or ''
         local size = info.size or info.Size or Vector2.new(504,604)
         local accent = info.accent or info.Accent or info.color or info.Color or theme.accent
         local callback = info.callback or info.Callback or info.callBack or info.CallBack or function() end
@@ -920,6 +1149,7 @@ do
             Position = utility:Position(0, 1, 0, 1, main_frame),
             Color = theme.accent
         })
+        library.accents[#library.accents + 1] = frame_inline
         --
         library.colors[frame_inline] = {
             Color = "accent"
@@ -935,13 +1165,14 @@ do
             Color = "lightcontrast"
         }
         --
-        local title = utility:Create("TextLabel", {Vector2.new(4,2), inner_frame}, {
+        local title = utility:Create("TextLabel", {Vector2.new(inner_frame.Size.X/2,2), inner_frame}, {
             Text = name,
             Size = theme.textsize,
             Font = theme.font,
             Color = theme.textcolor,
             OutlineColor = theme.textborder,
-            Position = utility:Position(0, 4, 0, 2, inner_frame)
+            Position = utility:Position(0, inner_frame.Size.X/2, 0, 2, inner_frame),
+			Center = true
         })
         --
         library.colors[title] = {
@@ -949,8 +1180,8 @@ do
             Color = "textcolor"
         }
         --
-        local inner_frame_inline = utility:Create("Frame", {Vector2.new(4,18), inner_frame}, {
-            Size = utility:Size(1, -8, 1, -22, inner_frame),
+        local inner_frame_inline = utility:Create("Frame", {Vector2.new(4,hidetitle and 4 or 18), inner_frame}, {
+            Size = utility:Size(1, -8, 1, not hidetitle and -22 or -8, inner_frame),
             Position = utility:Position(0, 4, 0, 18, inner_frame),
             Color = theme.inline
         })
@@ -1089,6 +1320,7 @@ do
                 Position = utility:Position(0, 1, 0, 1, esppreview_frame),
                 Color = theme.accent
             }, window.VisualPreview.Drawings)
+            library.accents[#library.accents + 1] = esppreview_inline
             --
             library.colors[esppreview_inline] = {
                 Color = "accent"
@@ -1308,7 +1540,7 @@ do
                 local preview_heatlhbar = utility:Create("Frame", {Vector2.new(1, 1), preview_heatlhbaroutline}, {
                     Size = utility:Size(1, -2, 1, -2, preview_heatlhbaroutline),
                     Position = utility:Position(0, 1, 0, 1, preview_heatlhbaroutline),
-                    Color = Color3.fromRGB(255, 0, 0),
+                    Color = Color3.fromRGB(0, 255, 0),
                     Filled = true
                 }, window.VisualPreview.Drawings);healthbar = preview_heatlhbar
                 --
@@ -1487,7 +1719,7 @@ do
                     Position = utility:Position(0, 1, 0, 1, preview_boxoutline),
                     Color = Color3.fromRGB(255, 255, 255),
                     Filled = true,
-                    Transparency = 0.9
+                    Transparency = 0.35
                 }, window.VisualPreview.Drawings)
                 --
                 local preview_flags = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X -56, 5), preview_box}, {
@@ -1537,6 +1769,28 @@ do
         --
         function window:SetName(Name)
             title.Text = Name
+        end
+        --
+        function library:UpdateColor(ColorType, ColorValue) -- pasted from Octernal
+            local ColorType = ColorType:lower()
+            --
+            theme[ColorType] = ColorValue
+            --
+            for Index, Value in pairs(library.colors) do
+                for Index2, Value2 in pairs(Value) do
+                    if Value2 == ColorType then
+                        Index[Index2] = theme[Value2]
+                    end
+                end
+            end
+        end
+        --
+        function library:SetTheme(theme_name)
+            local sel_theme = themes[theme_name]
+
+            for i,v in pairs(sel_theme) do
+                library:UpdateColor(i, v)
+            end
         end
         --
         function window:GetConfig()
@@ -1721,10 +1975,10 @@ do
             --
             local text_bounds = utility:GetTextBounds(watermark_name, theme.textsize, theme.font)
             --
-            local watermark_outline = utility:Create("Frame", {Vector2.new(100,38/2-10)}, {
+            local watermark_outline = utility:Create("Frame", {Vector2.new(100,9)}, {
                 Size = utility:Size(0, text_bounds.X+20, 0, 21),
-                Position = utility:Position(0, 100, 0, 38/2-10),
-                Hidden = true,
+                Position = utility:Position(0, 100, 0, 9),
+                Hidden = false,
                 ZIndex = 60,
                 Color = theme.outline,
                 Visible = window.watermark.visible
@@ -1737,8 +1991,8 @@ do
             local watermark_inline = utility:Create("Frame", {Vector2.new(1,1), watermark_outline}, {
                 Size = utility:Size(1, -2, 1, -2, watermark_outline),
                 Position = utility:Position(0, 1, 0, 1, watermark_outline),
-                Hidden = true,
-                ZIndex = 60,
+                Hidden = false,
+                ZIndex = 60.1,
                 Color = theme.inline,
                 Visible = window.watermark.visible
             })
@@ -1750,8 +2004,8 @@ do
             local watermark_frame = utility:Create("Frame", {Vector2.new(1,1), watermark_inline}, {
                 Size = utility:Size(1, -2, 1, -2, watermark_inline),
                 Position = utility:Position(0, 1, 0, 1, watermark_inline),
-                Hidden = true,
-                ZIndex = 60,
+                Hidden = false,
+                ZIndex = 60.2,
                 Color = theme.lightcontrast,
                 Visible = window.watermark.visible
             })
@@ -1763,11 +2017,12 @@ do
             local watermark_accent = utility:Create("Frame", {Vector2.new(0,0), watermark_frame}, {
                 Size = utility:Size(1, 0, 0, 1, watermark_frame),
                 Position = utility:Position(0, 0, 0, 0, watermark_frame),
-                Hidden = true,
-                ZIndex = 60,
+                Hidden = false,
+                ZIndex = 60.3,
                 Color = theme.accent,
                 Visible = window.watermark.visible
             })
+            library.accents[#library.accents + 1] = watermark_accent
             --
             library.colors[watermark_accent] = {
                 Color = "accent"
@@ -1779,8 +2034,8 @@ do
                 Font = theme.font,
                 Color = theme.textcolor,
                 OutlineColor = theme.textborder,
-                Hidden = true,
-                ZIndex = 60,
+                Hidden = false,
+                ZIndex = 60.4,
                 Position = utility:Position(0, 2 + 6, 0, 4, watermark_outline),
                 Visible = window.watermark.visible
             })
@@ -1843,7 +2098,7 @@ do
             local keybindslist_outline = utility:Create("Frame", {Vector2.new(10,(utility:GetScreenSize().Y/2)-200)}, {
                 Size = utility:Size(0, 180, 0, 22),
                 Position = utility:Position(0, 10, 0.4, 0),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.outline,
                 Visible = window.keybindslist.visible
@@ -1856,7 +2111,7 @@ do
             local keybindslist_inline = utility:Create("Frame", {Vector2.new(1,1), keybindslist_outline}, {
                 Size = utility:Size(1, -2, 1, -2, keybindslist_outline),
                 Position = utility:Position(0, 1, 0, 1, keybindslist_outline),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.inline,
                 Visible = window.keybindslist.visible
@@ -1869,7 +2124,7 @@ do
             local keybindslist_frame = utility:Create("Frame", {Vector2.new(1,1), keybindslist_inline}, {
                 Size = utility:Size(1, -2, 1, -2, keybindslist_inline),
                 Position = utility:Position(0, 1, 0, 1, keybindslist_inline),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.lightcontrast,
                 Visible = window.keybindslist.visible
@@ -1882,11 +2137,12 @@ do
             local keybindslist_accent = utility:Create("Frame", {Vector2.new(0,0), keybindslist_frame}, {
                 Size = utility:Size(1, 0, 0, 1, keybindslist_frame),
                 Position = utility:Position(0, 0, 0, 0, keybindslist_frame),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.accent,
                 Visible = window.keybindslist.visible
             })
+            library.accents[#library.accents + 1] = keybindslist_accent
             --
             library.colors[keybindslist_accent] = {
                 Color = "accent"
@@ -1899,7 +2155,7 @@ do
                 Color = theme.textcolor,
                 OutlineColor = theme.textborder,
                 Center = true,
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Position = utility:Position(0.5, 0, 0, 5, keybindslist_outline),
                 Visible = window.keybindslist.visible
@@ -1926,7 +2182,7 @@ do
                     local keybind_outline = utility:Create("Frame", {Vector2.new(0,keybindslist_outline.Size.Y-1), keybindslist_outline}, {
                         Size = utility:Size(1, 0, 0, 18, keybindslist_outline),
                         Position = utility:Position(0, 0, 1, -1, keybindslist_outline),
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Color = theme.outline,
                         Visible = window.keybindslist.visible
@@ -1939,7 +2195,7 @@ do
                     local keybind_inline = utility:Create("Frame", {Vector2.new(1,1), keybind_outline}, {
                         Size = utility:Size(1, -2, 1, -2, keybind_outline),
                         Position = utility:Position(0, 1, 0, 1, keybind_outline),
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Color = theme.inline,
                         Visible = window.keybindslist.visible
@@ -1952,7 +2208,7 @@ do
                     local keybind_frame = utility:Create("Frame", {Vector2.new(1,1), keybind_inline}, {
                         Size = utility:Size(1, -2, 1, -2, keybind_inline),
                         Position = utility:Position(0, 1, 0, 1, keybind_inline),
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Color = theme.darkcontrast,
                         Visible = window.keybindslist.visible
@@ -1969,7 +2225,7 @@ do
                         Color = theme.textcolor,
                         OutlineColor = theme.textborder,
                         Center = false,
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Position = utility:Position(0, 4, 0, 3, keybind_outline),
                         Visible = window.keybindslist.visible
@@ -1986,7 +2242,7 @@ do
                         Font = theme.font,
                         Color = theme.textcolor,
                         OutlineColor = theme.textborder,
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Position = utility:Position(1, -4 - utility:GetTextBounds(keybindname, theme.textsize, theme.font).X, 0, 3, keybind_outline),
                         Visible = window.keybindslist.visible
@@ -2075,7 +2331,7 @@ do
             local statuslist_outline = utility:Create("Frame", {Vector2.new(10,(utility:GetScreenSize().Y/2)-200)}, {
                 Size = utility:Size(0, 150, 0, 22),
                 Position = utility:Position(1, -160, 0.4, 0),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.outline,
                 Visible = window.statuslist.visible
@@ -2088,7 +2344,7 @@ do
             local statuslist_inline = utility:Create("Frame", {Vector2.new(1,1), statuslist_outline}, {
                 Size = utility:Size(1, -2, 1, -2, statuslist_outline),
                 Position = utility:Position(0, 1, 0, 1, statuslist_outline),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.inline,
                 Visible = window.statuslist.visible
@@ -2101,7 +2357,7 @@ do
             local statuslist_frame = utility:Create("Frame", {Vector2.new(1,1), statuslist_inline}, {
                 Size = utility:Size(1, -2, 1, -2, statuslist_inline),
                 Position = utility:Position(0, 1, 0, 1, statuslist_inline),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.lightcontrast,
                 Visible = window.statuslist.visible
@@ -2114,11 +2370,12 @@ do
             local statuslist_accent = utility:Create("Frame", {Vector2.new(0,0), statuslist_frame}, {
                 Size = utility:Size(1, 0, 0, 1, statuslist_frame),
                 Position = utility:Position(0, 0, 0, 0, statuslist_frame),
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Color = theme.accent,
                 Visible = window.statuslist.visible
             })
+            library.accents[#library.accents + 1] = statuslist_accent
             --
             library.colors[statuslist_accent] = {
                 Color = "accent"
@@ -2131,7 +2388,7 @@ do
                 Color = theme.textcolor,
                 OutlineColor = theme.textborder,
                 Center = true,
-                Hidden = true,
+                Hidden = false,
                 ZIndex = 55,
                 Position = utility:Position(0.5, 0, 0, 5, statuslist_outline),
                 Visible = window.statuslist.visible
@@ -2158,7 +2415,7 @@ do
                     local status_outline = utility:Create("Frame", {Vector2.new(0,statuslist_outline.Size.Y-1), statuslist_outline}, {
                         Size = utility:Size(1, 0, 0, 18, statuslist_outline),
                         Position = utility:Position(0, 0, 1, -1, statuslist_outline),
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Color = theme.outline,
                         Visible = window.statuslist.visible
@@ -2171,7 +2428,7 @@ do
                     local status_inline = utility:Create("Frame", {Vector2.new(1,1), status_outline}, {
                         Size = utility:Size(1, -2, 1, -2, status_outline),
                         Position = utility:Position(0, 1, 0, 1, status_outline),
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Color = theme.inline,
                         Visible = window.statuslist.visible
@@ -2184,7 +2441,7 @@ do
                     local status_frame = utility:Create("Frame", {Vector2.new(1,1), status_inline}, {
                         Size = utility:Size(1, -2, 1, -2, status_inline),
                         Position = utility:Position(0, 1, 0, 1, status_inline),
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Color = theme.darkcontrast,
                         Visible = window.statuslist.visible
@@ -2201,7 +2458,7 @@ do
                         Color = theme.textcolor,
                         OutlineColor = theme.textborder,
                         Center = false,
-                        Hidden = true,
+                        Hidden = false,
                         ZIndex = 55,
                         Position = utility:Position(0, 4, 0, 3, status_outline),
                         Visible = window.statuslist.visible
@@ -2287,7 +2544,7 @@ do
                 Thickness = 2.5,
                 Filled = false,
                 ZIndex = 65,
-                Hidden = true
+                Hidden = false
             });window.cursor["cursor"] = cursor
             --
             library.colors[cursor] = {
@@ -2299,8 +2556,9 @@ do
                 Filled = true,
                 Thickness = 0,
                 ZIndex = 65,
-                Hidden = true
+                Hidden = false
             });window.cursor["cursor_inline"] = cursor_inline
+            library.accents[#library.accents + 1] = cursor_inline
             --
             library.colors[cursor_inline] = {
                 Color = "accent"
@@ -2360,7 +2618,7 @@ do
         end
         --
         library.began[#library.began + 1] = function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 and window.isVisible and window.isVisible and utility:MouseOverDrawing({main_frame.Position.X,main_frame.Position.Y,main_frame.Position.X + main_frame.Size.X,main_frame.Position.Y + 20}) then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 and window.isVisible and window.isVisible and utility:MouseOverDrawing({main_frame.Position.X,main_frame.Position.Y,main_frame.Position.X + main_frame.Size.X,main_frame.Position.Y + 10}) then
                 local mouseLocation = utility:MouseLocation()
                 --
                 window.dragging = true
@@ -2504,7 +2762,7 @@ do
         local page_button = utility:Create("Frame", {Vector2.new(position,4), window.back_frame}, {
             Size = utility:Size(0, window.pageammount and (((window.back_frame.Size.X - 8 - ((window.pageammount - 1) * 2)) / window.pageammount)) or (textbounds.X+20), 0, 21),
             Position = utility:Position(0, position, 0, 4, window.back_frame),
-            Color = theme.outline
+            Color = theme.outline,
         });page["page_button"] = page_button
         --
         library.colors[page_button] = {
@@ -2687,6 +2945,7 @@ do
             Color = theme.accent,
             Visible = page.open
         }, section.visibleContent);section["section_accent"] = section_accent
+        library.accents[#library.accents + 1] = section_accent
         --
         library.colors[section_accent] = {
             Color = "accent"
@@ -2792,6 +3051,7 @@ do
             Color = theme.accent,
             Visible = page.open
         }, multiSection.visibleContent);multiSection["section_accent"] = multiSection_accent
+        library.accents[#library.accents + 1] = multiSection_accent
         --
         library.colors[multiSection_accent] = {
             Color = "accent"
@@ -2976,6 +3236,7 @@ do
             Color = theme.accent,
             Visible = page.open
         }, playerList.visibleContent);playerList["playerList_accent"] = playerList_accent
+        library.accents[#library.accents + 1] = playerList_accent
         --
         library.colors[playerList_accent] = {
             Color = "accent"
@@ -3046,6 +3307,7 @@ do
             Color = theme.accent,
             Visible = page.open
         }, playerList.visibleContent)
+        library.accents[#library.accents + 1] = list_bar
         --
         library.colors[list_bar] = {
             Color = "accent"
@@ -4039,6 +4301,7 @@ do
                                 Position = utility:Position(0, 0, 0, 0, colorpicker_open_frame),
                                 Color = theme.accent
                             }, colorpicker.holder.drawings)
+                            library.accents[#library.accents + 1] = colorpicker_open_accent
                             --
                             library.colors[colorpicker_open_accent] = {
                                 Color = "accent"
@@ -4685,7 +4948,7 @@ do
         end
         --
         local slider_outline = utility:Create("Frame", {Vector2.new(4,slider.axis + (name and 15 or 0)), section.section_frame}, {
-            Size = utility:Size(1, -8, 0, 14, section.section_frame),
+            Size = utility:Size(1, -8, 0, 12, section.section_frame),
             Position = utility:Position(0, 4, 0, slider.axis + (name and 15 or 0), section.section_frame),
             Color = theme.outline,
             Visible = page.open
@@ -4723,6 +4986,7 @@ do
             Color = theme.accent,
             Visible = page.open
         }, section.visibleContent)
+        library.accents[#library.accents + 1] = slider_slide
         --
         library.colors[slider_slide] = {
             Color = "accent"
@@ -4736,7 +5000,7 @@ do
         }, section.visibleContent)
         --
         local textBounds = utility:GetTextBounds(name, theme.textsize, theme.font)
-        local slider_value = utility:Create("TextLabel", {Vector2.new(slider_outline.Size.X/2,(slider_outline.Size.Y/2) - (textBounds.Y/2)), slider_outline}, {
+        local slider_value = utility:Create("TextLabel", {Vector2.new(slider_outline.Size.X/2,(slider_outline.Size.Y/2) - (textBounds.Y/2)-1), slider_outline}, {
             Text = slider.current..slider.sub.."/"..maxtext..slider.sub,
             Size = theme.textsize,
             Font = theme.font,
@@ -5027,6 +5291,7 @@ do
                         window:CloseContent()
                         --
                         textbox_value.Color = theme.accent
+                        library.accents[#library.accents + 1] = textbox_value
                         --
                         library.colors[textbox_value] = {
                             OutlineColor = "textborder",
@@ -5070,6 +5335,7 @@ do
                 if uis:IsKeyDown(Enum.KeyCode.LeftControl) and utility:MouseOverDrawing({section.section_frame.Position.X, section.section_frame.Position.Y + textbox.axis, section.section_frame.Position.X + section.section_frame.Size.X, section.section_frame.Position.Y + textbox.axis + 20}) and not window:IsOverContent() then
                     task.spawn(function()
                         textbox_value.Color = theme.accent
+                        library.accents[#library.accents + 1] = textbox_value
                         --
                         library.colors[textbox_value] = {
                             OutlineColor = "textborder",
@@ -5417,6 +5683,7 @@ do
                                 Color = theme.accent,
                                 Visible = page.open
                             }, dropdown.holder.drawings);dropdown.bar = dropdown_open_bar
+                            library.accents[#library.accents + 1] = dropdown_open_bar
                             --
                             library.colors[dropdown_open_bar] = {
                                 Color = "accent"
@@ -6412,6 +6679,7 @@ do
                             Position = utility:Position(0, 0, 0, 0, colorpicker_open_frame),
                             Color = theme.accent
                         }, colorpicker.holder.drawings)
+                        library.accents[#library.accents + 1] = colorpicker_open_accent
                         --
                         library.colors[colorpicker_open_accent] = {
                             Color = "accent"
@@ -6856,6 +7124,7 @@ do
                                 Position = utility:Position(0, 0, 0, 0, colorpicker_open_frame),
                                 Color = theme.accent
                             }, colorpicker.holder.drawings)
+                            library.accents[#library.accents + 1] = colorpicker_open_accent
                             --
                             library.colors[colorpicker_open_accent] = {
                                 Color = "accent"
@@ -7178,6 +7447,7 @@ do
             Color = theme.accent,
             Visible = page.open
         }, section.visibleContent)
+        library.accents[#library.accents + 1] = list_bar
         --
         library.colors[list_bar] = {
             Color = "accent"
@@ -7238,6 +7508,10 @@ do
                     Color = (Index + list.scrollingindex) == list.current and "accent" or "textcolor"
                 }
             end
+        end
+        --
+        function list:RefreshValues(newOptions)
+            list.options = newOptions
         end
         --
         function list:Get()
