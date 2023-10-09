@@ -76,7 +76,7 @@ local theme = {
 }
 local themes = {
     Default = {
-		['accent'] = Color3.fromRGB(61, 100, 227);
+		['accent'] = Color3.fromRGB(96,110,140);
 		['lightcontrast'] = Color3.fromRGB(40, 40, 40);
 		['darkcontrast'] = Color3.fromRGB(20, 20, 20);
 		['outline'] = Color3.fromRGB(1,1,1);
