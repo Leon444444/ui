@@ -27,9 +27,9 @@ local library = {
     hovers = {},
     Relations = {},
     folders = {
-        main = "",
-        assets = "/Images",
-        configs = "/Configs"
+        main = "Narotcheats",
+        assets = "Narotcheats/Images",
+        configs = "Narotcheats/Configs"
     },
     shared = {
         initialized = false,
