@@ -27,9 +27,9 @@ local library = {
     hovers = {},
     Relations = {},
     folders = {
-        main = "Siero.pen",
-        assets = "Siero.pen/Images",
-        configs = "Siero.pen/Configs"
+        main = "Tricked",
+        assets = "Tricked/Images",
+        configs = "Tricked/Configs"
     },
     shared = {
         initialized = false,
