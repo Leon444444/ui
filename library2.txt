@@ -62,7 +62,6 @@ local sections = {}
 -- Theme Variables
 --local themes = {}
 local theme = {
-    local theme = {
     ['accent'] = Color3.fromRGB(179,129,152);
     ['lightcontrast'] = Color3.fromRGB(42, 44, 56);
     ['darkcontrast'] = Color3.fromRGB(37, 39, 48);
