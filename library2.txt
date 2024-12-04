@@ -1,5 +1,5 @@
 --[[
-    moded by siero and harn0ff, fix gradient by xosmane and harn0ff
+    moded by siero and harn0ff, fix gradient by xosmane and harn0ff [gradient not fixed, solara moment]
 ]]
 -- // Variables
 local ws, uis, rs, hs, cas, plrs, stats = game:GetService("Workspace"), game:GetService("UserInputService"), game:GetService("RunService"), game:GetService("HttpService"), game:GetService("ContextActionService"), game:GetService("Players"), game:GetService("Stats")
